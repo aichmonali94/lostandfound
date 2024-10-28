@@ -2,12 +2,27 @@
 **Overview**
 The Lost & Found application is a Spring Boot-based RESTful web service designed to manage lost items effectively. This application allows administrators to upload details of lost items from a file, while users can view and claim these items. It leverages Java 21 and utilizes an H2 in-memory database for efficient data management. The application is built with a focus on best practices in coding, design patterns, and architecture, ensuring it is clean, maintainable, and production-ready.
 
+<<<<<<< Updated upstream
 **Features**
 Upload & Store Lost Items: Admins can upload lost item details from a file (e.g., PDF), which are then extracted and stored in the database.
 View Lost Items: Users can retrieve a list of all stored lost items.
 Claim Lost Items: Users can claim specific lost items, which records the user ID and quantity claimed.
 Admin Retrieval of Claims: Admins can view all lost items along with the users who have claimed them.
 User Information Retrieval: A mock user service to fetch user details (e.g., name) associated with claims.
+=======
+**Technologies Used Backend Framework:**
+
+1. Spring Boot
+
+2. Programming Language: Java 21
+
+3. Database: H2 (in-memory)
+
+4. Feign synchronous communication is used to communicate between 2 services.
+
+DEV database env - http://localhost:9092/lostandfound
+PROD database env - http://localhost:9093/lostandfound
+>>>>>>> Stashed changes
 
 **Technologies Used Backend Framework:** Spring Boot
 Programming Language: Java 21
