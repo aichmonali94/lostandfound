@@ -1,6 +1,7 @@
 package com.rabobank.lostandfound.controller;
 
 import com.rabobank.lostandfound.dto.LostItemDto;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import com.rabobank.lostandfound.model.UserDetails;
 import com.rabobank.lostandfound.service.LostItemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
+import java.util.Base64;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,13 +42,20 @@ public class LostItemControllerTest {
 
     @Test
     public void getLostItemsWithUserDtls_Success() throws Exception {
+
+        String username = "admin";
+        String password = "admin123";
+        String auth = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+
         Set<LostItemDto> expectedItems = new HashSet<>();
         Set<UserDetails> claimedUser = new HashSet<>();
         expectedItems.add(new LostItemDto(1L,"Laptop",1,"taxi",claimedUser));
 
         when(lostItemService.getAllLostItemsWithUserDetails()).thenReturn(expectedItems);
 
-        mockMvc.perform(get("/api/v1/lostandfound/lostitem/getLostItemsWithUserDtls")
+        mockMvc.perform(get("/api/v1/lostandfound/lostitem/admin/getLostItemsWithUserDtls")
+                        .header("Authorization", auth)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -59,12 +67,19 @@ public class LostItemControllerTest {
 
     @Test
     public void getAllLostItems_Success() throws Exception {
+
+        String username = "user";
+        String password = "user123";
+        String auth = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+
         Set<LostItemDto> expectedItems = new HashSet<>();
         expectedItems.add(new LostItemDto());
 
         when(lostItemService.getAllLostItems()).thenReturn(expectedItems);
 
-        mockMvc.perform(get("/api/v1/lostandfound/lostitem/getAllLostItems")
+        mockMvc.perform(get("/api/v1/lostandfound/lostitem/user/getAllLostItems")
+                        .header("Authorization", auth)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -23,9 +24,11 @@ public class LostItemController {
             "the Lost items and Users (userId and name) associated with that.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "500", description ="Internal Server Error.")
+            @ApiResponse(responseCode = "500", description ="Internal Server Error."),
+            @ApiResponse(responseCode = "403", description="Forbidden for other user.")
     })
-    @GetMapping("/getLostItemsWithUserDtls")
+    @GetMapping("/admin/getLostItemsWithUserDtls")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Set<LostItemDto>> getLostItemsWithUserDtls() {
         return new ResponseEntity<>(lostItemService.getAllLostItemsWithUserDetails(), HttpStatus.OK);
     }
@@ -37,7 +40,8 @@ public class LostItemController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description ="Internal Server Error.")
     })
-    @GetMapping("/getAllLostItems")
+    @GetMapping("/user/getAllLostItems")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Set<LostItemDto>> getLostItems() {
         return new ResponseEntity<>(lostItemService.getAllLostItems(), HttpStatus.OK);
     }
