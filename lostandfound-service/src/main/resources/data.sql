@@ -1,0 +1,1 @@
+INSERT INTO LOST_ITEM(lost_item_entry_id,item_name,quantity,place)values(10,'Mobile',1,'Bus station');
