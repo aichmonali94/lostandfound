@@ -9,5 +9,4 @@ import java.util.Set;
 public interface FileService {
 
     Set<LostItemDto> uploadFile(MultipartFile file) throws IOException;
-    boolean validateFile(MultipartFile file);
 }

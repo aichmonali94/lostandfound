@@ -47,7 +47,7 @@ public class ClaimDetailsControllerTest {
 
         when(claimService.claimRequest(any(ClaimDetailsDto.class))).thenReturn(expectedItem);
 
-        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/claimByItem")
+        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/user/claimByItem")
                         .param("userId", userId.toString())
                         .param("itemId", itemId.toString())
                         .param("quantity", quantity.toString())
@@ -67,7 +67,7 @@ public class ClaimDetailsControllerTest {
         Long itemId = 2L;
         Integer quantity = 1;
 
-        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/claimByItem")
+        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/user/claimByItem")
                         .param("userId", invalidUserId)
                         .param("itemId", itemId.toString())
                         .param("quantity", quantity.toString())
@@ -83,7 +83,7 @@ public class ClaimDetailsControllerTest {
         String invalidItemId = "invalidItemId"; // Invalid item ID
         Integer quantity = 1;
 
-        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/claimByItem")
+        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/user/claimByItem")
                         .param("userId", userId.toString())
                         .param("itemId", invalidItemId)
                         .param("quantity", quantity.toString())
@@ -99,7 +99,7 @@ public class ClaimDetailsControllerTest {
         Long itemId = 2L;
         Integer invalidQuantity = null; // Invalid quantity
 
-        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/claimByItem")
+        mockMvc.perform(put("/api/v1/lostandfound/claimdetails/user/claimByItem")
                         .param("userId", userId.toString())
                         .param("itemId", itemId.toString())
                         .param("quantity", String.valueOf(invalidQuantity))
