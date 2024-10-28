@@ -4,6 +4,7 @@ import com.rabobank.lostandfound.dto.LostItemDto;
 import com.rabobank.lostandfound.exception.FileNotSupportedException;
 import com.rabobank.lostandfound.repository.LostItemRepository;
 import com.rabobank.lostandfound.service.impl.FileServiceImpl;
+import com.rabobank.lostandfound.validation.FileUploadValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,12 +27,16 @@ public class FileServiceImplTest {
     @Mock
     private LostItemDto lostItemDto;
 
+
+    private FileUploadValidation validation;
+
     @Mock
     private MultipartFile file;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        validation = new FileUploadValidation();
     }
 
     @Test
@@ -40,7 +45,7 @@ public class FileServiceImplTest {
         when(file.getOriginalFilename()).thenReturn("ItemName.pdf");
         when(file.isEmpty()).thenReturn(false);
 
-        assertTrue(fileService.validateFile(file));
+        assertTrue(validation.validateFile(file));
     }
 
     @Test
@@ -48,7 +53,7 @@ public class FileServiceImplTest {
         when(file.isEmpty()).thenReturn(true);
 
         FileNotSupportedException exception = assertThrows(FileNotSupportedException.class, () -> {
-            fileService.validateFile(file);
+            validation.validateFile(file);
         });
 
         assertEquals("Please select a file to upload.", exception.getMessage());
@@ -60,7 +65,7 @@ public class FileServiceImplTest {
         when(file.isEmpty()).thenReturn(false);
 
         FileNotSupportedException exception = assertThrows(FileNotSupportedException.class, () -> {
-            fileService.validateFile(file);
+            validation.validateFile(file);
         });
 
         assertEquals("Content type is missing.", exception.getMessage());
@@ -73,7 +78,7 @@ public class FileServiceImplTest {
         when(file.isEmpty()).thenReturn(false);
 
         FileNotSupportedException exception = assertThrows(FileNotSupportedException.class, () -> {
-            fileService.validateFile(file);
+            validation.validateFile(file);
         });
 
         assertEquals("Only PDF files are allowed.", exception.getMessage());
